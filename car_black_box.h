@@ -40,6 +40,7 @@
 #define EDGE 1
 #define LEVEL 0
 
+unsigned char control_flag=0;
 char *signature[8]={"C ","GN","G1","G2","G3","G4","GR","ON"};
 
 void init_clcd(void);
@@ -69,6 +70,8 @@ unsigned short read_adc(unsigned char channel);
 //2.Event capture
 //3.Login screen
 //4.Menu
+void login_screen();
+void display_menu_screen();
 
 #endif	/* CAR_BLACK_BOX_H */
 

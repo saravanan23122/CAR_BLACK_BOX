@@ -26,16 +26,15 @@ void main(void) {
     while(1)
     {
         key =read_matrix_keypad(EDGE);
-        if(1 to 3)
-            flag=0;
-        else if(10 to 12)
-            flag=1;
-         
+        if(key == 10 ||key == 11 || key ==12)
+            control_flag=1;
         
-        if(flag==0)
+        if(control_flag == 0)
             display_default_screen();
-        else
+        else if(control_flag == 1)
             login_screen();
+        else if(control_flag == 2)
+            display_menu_screen();
     }
     return;
 }

@@ -218,17 +218,18 @@ unsigned short read_adc(unsigned char channel)
 void login_screen()
 {
     unsigned int success =0;
-    while(success != 1)
-    unsigned char pass_key;
     unsigned char enter =0;
     //unsigned char success =0;
     unsigned char password[4] = "1010";
-    unsigned char user_in[5];
-    user_in[4]='/0';
-    unsigned int check =0;
     unsigned int count =0;
+    unsigned char user_in[5];
+    user_in[4]='\0';
+    unsigned int check =0;
     unsigned char cursor_flag=0;
     unsigned char chance=0;
+    unsigned char pass_key;
+    unsigned int wait =0;
+    while(success != 1){
     while(count < 5)
     {
         if(success == 0)
@@ -243,19 +244,19 @@ void login_screen()
                 wait =0;
                 if(cursor_flag ==0)
                 {
-                    clcd_putch("_",LINE2(4+count));
+                    clcd_putch('_',LINE2(4+count));
                 }
                 else
                 {
-                    clcd_putch(" ",LINE2(4+count));
+                    clcd_putch(' ',LINE2(4+count));
                 }
                 cursor_flag =~cursor_flag;
             }
         }
         if(pass_key ==11 || pass_key ==12)
         {
-            clcd_putch("*",LINE2(4+count));
-            user_in[count] = key+37;
+            clcd_putch('*',LINE2(4+count));
+            user_in[count] = pass_key+37;
             if(password[count] != user_in[count])
             {
                 check=1;
@@ -266,7 +267,13 @@ void login_screen()
         {
             enter =1;
             success =1;
+            clcd_print("Correct Password",LINE1(0));
+            for(int i=0;i<10000;i++);
+            CLEAR_DISP_SCREEN;
+            control_flag=2;
+            break;
             //set menu flag
+            //clcd_print("                ",LINE2(0));
         }
         else if(check ==1 && count == 4)
         {
@@ -274,20 +281,36 @@ void login_screen()
             {
                 clcd_print(" WRONG_PASSWORD ",LINE1(0));
                 clcd_print("  Attempts left ",LINE2(0));
-                clcd_putch(53-chance,LINE2(0));
+                clcd_putch(51-chance,LINE2(0));
                 enter =0;
+                count=0;
                 success =0;
+                check=0;
                 chance++;
                 for(unsigned long int i=100000;i--;);
-                CLEAR_DISP_SCREEN;
+                    CLEAR_DISP_SCREEN;
             }
             else
             {
-                clcd_print(" WAIT_FOR       ");
-                clcd_print("                ");
+                clcd_print("    WAIT_FOR    ",LINE1(0));
+                clcd_print("                ",LINE2(0));
+                int one_min_count=0;
+                
+                enter =0;
+                count =0;
+                chance =0;
+                check=0;
                 //timer delay for one minute
             }
         }
     }
+    }
+}
+
+
+void display_menu_screen()
+{
+    clcd_print("    VIEW_LOG    ",LINE1(0));
+    clcd_print("     SET_LOG    ",LINE2(0));
     
 }
